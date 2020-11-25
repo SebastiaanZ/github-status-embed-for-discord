@@ -1,0 +1,9 @@
+name: 'Discord GitHub Status Embed'
+description: 'Send a custom GitHub Status Embed to a Discord Webhook'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Hello World!
+      run: echo 'Hello, world!'
+      shell: bash
