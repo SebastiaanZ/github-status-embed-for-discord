@@ -1,9 +1,18 @@
-name: 'Discord GitHub Status Embed'
+name: 'GitHub Status Embed for Discord'
 description: 'Send a custom GitHub Status Embed to a Discord Webhook'
 
+inputs:
+  name:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'Sebastiaan'
+
+outputs:
+  status:
+    description: 'The status response for the webhook request'
+
 runs:
-  using: "composite"
-  steps:
-    - name: Hello World!
-      run: echo 'Hello, world!'
-      shell: bash
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.name }}
