@@ -1,16 +1,17 @@
-FROM python:3.9-slim
+FROM python:3.9-slim as builder
 
-ENV PIP_NO_CACHE_DIR=false
-
-# Copy requirements file first so we can skip so we can skip
-# rebuilding the layers that install dependencies unless the
-# requirements change.
 COPY requirements.txt .
 
-RUN pip install -U -r requirements.txt
+RUN pip install --target=/app -r requirements.txt
 
-WORKDIR /github/workspace
+FROM gcr.io/distroless/python3-debian10
+COPY --from=builder /app /app
 
-COPY ./github_status_embed/* ./github_status_embed/
+
+WORKDIR /app
+COPY ./github_status_embed github_status_embed/
+
+ENV PYTHONPATH /app
+CMD ["/app/main.py"]
 
 ENTRYPOINT ["python", "-m", "github_status_embed"]
