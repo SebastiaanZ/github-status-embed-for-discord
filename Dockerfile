@@ -9,8 +9,8 @@ COPY requirements.txt .
 
 RUN pip install -U -r requirements.txt
 
-WORKDIR /action
+WORKDIR /github/workspace
 
 COPY ./github_status_embed/* ./github_status_embed/
 
-ENTRYPOINT ["python", "-c", "import pathlib; print(repr(pathlib.Path.cwd())); print(list(pathlib.Path.cwd().iterdir()))"]
+ENTRYPOINT ["python", "-m", "github_status_embed"]
