@@ -1,0 +1,67 @@
+# Information about the workflow and actions run
+workflow:
+  required: true
+
+  required_args:
+    workflow_name:
+      type: str
+
+    run_id:
+      type: int
+
+    run_number:
+      type: int
+
+    status:
+      type: str
+      choices:
+        - success
+        - failure
+        - cancelled
+
+    actor:
+      type: str
+
+    repository:
+      type: str
+
+# Information about the Discord webhook that's targeted
+webhook:
+  required: true
+
+  required_args:
+    webhook_id:
+      type: int
+
+    webhook_token:
+      type: str
+
+# Information about the head commit
+head_commit:
+  required: true
+
+  required_args:
+    short_sha:
+      type: str
+
+    branch:
+      type: str
+
+# Pull Request information
+pull_request:
+  required: false
+
+  # The required arguments of an optional argument must either all be
+  # absent/None or all be present/non-None.
+  required_args:
+    pr_author_login:
+      type: str
+
+    pr_number:
+      type: int
+
+    pr_title:
+      type: str
+
+    pr_source:
+      type: str

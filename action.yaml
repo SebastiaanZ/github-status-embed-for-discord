@@ -1,18 +1,80 @@
-name: 'GitHub Status Embed for Discord'
-description: 'Send a custom GitHub Status Embed to a Discord Webhook'
+name: GitHub Status Embed for Discord
+author: Sebastiaan Zeeff
+description: Send a custom GitHub Status Embed to a Discord Webhook
 
 inputs:
-  name:  # id of input
-    description: 'Who to greet'
+  workflow_name:
+    description: 'The name of the workflow (typically: github.workflow)'
     required: true
-    default: 'Sebastiaan'
 
-outputs:
+  run_id:
+    description: 'The run id of this workflow run (typically: github.run_id)'
+    required: true
+
+  run_number:
+    description: 'The number of this workflow run (typically: github.number)'
+    required: true
+
   status:
-    description: 'The status response for the webhook request'
+    description: 'The results status communicated with this embed (typically: job.status)'
+    required: true
+
+  actor:
+    description: 'The actor that initiated the workflow run (typically: github.actor)'
+    required: true
+
+  webhook_id:
+    description: 'The ID of the Discord webhook that is targeted'
+    required: true
+
+  webhook_token:
+    description: 'The token for the Discord webhook that is targeted'
+    required: true
+
+  repository:
+    description: 'The GitHub repository name, including owner (typically: github.repository)'
+    required: true
+
+  sha:
+    description: 'The sha of the commit that triggered the workflow (typically: github.sha)'
+    required: true
+
+  ref:
+    description: 'The branch or tag that triggered the workflow (typically: github.ref)'
+    required: true
+
+  pr_author_login:
+    description: 'The login of the PR author (typically: github.event.pull_request.user.login)'
+    required: false
+
+  pr_number:
+    description: 'The number of the Pull Request (typically: github.event.pull_request.number)'
+    required: false
+
+  pr_title:
+    description: 'The title of the Pull Request (typically: github.event.pull_request.title)'
+    required: false
+
+  pr_source:
+    description: 'The source of the Pull Request (typically: github.event.pull_request.head.label)'
+    required: false
 
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.name }}
+    - ${{ inputs.workflow_name }}
+    - ${{ inputs.run_id }}
+    - ${{ inputs.run_number }}
+    - ${{ inputs.status }}
+    - ${{ inputs.actor }}
+    - ${{ inputs.webhook_id }}
+    - ${{ inputs.webhook_token }}
+    - ${{ inputs.repository_owner }}
+    - ${{ inputs.repository_name }}
+    - ${{ inputs.short_sha }}
+    - ${{ inputs.branch }}
+    - ${{ inputs.pr_author_login }}
+    - ${{ inputs.pr_number }}
+    - ${{ inputs.pr_title }}
+    - ${{ inputs.pr_source }}

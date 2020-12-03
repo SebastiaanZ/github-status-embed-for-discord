@@ -1,3 +1,5 @@
+from .types import WebhookPayload
+
 json = """{
   "content": null,
   "embeds": [
@@ -28,3 +30,7 @@ json = """{
   "username": "Github Actions",
   "avatar_url": "https://raw.githubusercontent.com/github/explore/2c7e603b797535e5ad8b4beb575ab3b7354666e1/topics/actions/actions.png"
 }"""
+
+
+def create_webhook_payload(*args) -> WebhookPayload:
+    """Create a webhook payload from the arguments provided."""

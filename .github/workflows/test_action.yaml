@@ -1,0 +1,27 @@
+name: Test Input Args
+on: [push]
+
+jobs:
+  test_input_args:
+    runs-on: ubuntu-latest
+    name: Test the input arguments
+
+    steps:
+    - name: Run Docker Action in this Repository
+      id: hello
+      uses: SebastiaanZ/github-status-embed-for-discord@main
+      with:
+        workflow_name: ${{ github.workflow }}
+        run_id: ${{ github.run_id }}
+        run_number: ${{ github.number }}
+        status: ${{ job.status }}
+        actor: ${{ github.actor }}
+        webhook_id: 'webhook id'
+        webhook_token: 'webhook token'
+        repository:  ${{ github.repository }}
+        sha: ${{ github.sha }}
+        branch: ${{ github.ref }}
+        pr_author_login: ${{ github.event.pull_request.user.login }}
+        pr_number: ${{ github.event.pull_request.number }}
+        pr_title: ${{ github.event.pull_request.title }}
+        pr_source: ${{ github.event.pull_request.head.label }}
