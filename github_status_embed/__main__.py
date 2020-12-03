@@ -22,8 +22,8 @@ parser.add_argument("repository_owner")
 parser.add_argument("repository_name")
 
 # pseudo-group: head_commit
-parser.add_argument("short_sha")
-parser.add_argument("branch")
+parser.add_argument("sha")
+parser.add_argument("ref")
 
 # pseudo-group: pull_request
 parser.add_argument("pr_author_login")

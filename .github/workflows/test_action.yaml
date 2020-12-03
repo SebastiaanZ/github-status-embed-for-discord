@@ -19,8 +19,8 @@ jobs:
         webhook_id: 'webhook id'
         webhook_token: 'webhook token'
         repository:  ${{ github.repository }}
-        sha: ${{ github.sha }}
         ref: ${{ github.ref }}
+        sha: ${{ github.sha }}
         pr_author_login: ${{ github.event.pull_request.user.login }}
         pr_number: ${{ github.event.pull_request.number }}
         pr_title: ${{ github.event.pull_request.title }}
