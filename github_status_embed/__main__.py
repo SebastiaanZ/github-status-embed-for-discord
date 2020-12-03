@@ -1,5 +1,7 @@
 import argparse
-import pprint
+
+from .types import Workflow, Webhook, PullRequest
+from .webhook import send_webhook
 
 parser = argparse.ArgumentParser(
     description="Send a custom GitHub Actions Status Embed to a Discord webhook.",
@@ -28,5 +30,11 @@ parser.add_argument("pr_source")
 
 
 if __name__ == "__main__":
-    args = parser.parse_args()
-    pprint.pprint(vars(args), sort_dicts=False)
+    arguments = vars(parser.parse_args())
+
+    # Extract Action arguments by creating dataclasses
+    workflow = Workflow.from_arguments(arguments)
+    webhook = Webhook.from_arguments(arguments)
+    pull_request = PullRequest.from_arguments(arguments)
+
+    send_webhook(workflow, webhook, pull_request)
