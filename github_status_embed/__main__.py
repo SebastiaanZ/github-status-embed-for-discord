@@ -11,19 +11,14 @@ parser.add_argument("workflow_name")
 parser.add_argument("run_id")
 parser.add_argument("run_number")
 parser.add_argument("status")
+parser.add_argument("repository")
 parser.add_argument("actor")
+parser.add_argument("ref")
+parser.add_argument("sha")
 
 # pseudo-group: webhook
 parser.add_argument("webhook_id")
 parser.add_argument("webhook_token")
-
-# pseudo-group: repository
-parser.add_argument("repository_owner")
-parser.add_argument("repository_name")
-
-# pseudo-group: head_commit
-parser.add_argument("sha")
-parser.add_argument("ref")
 
 # pseudo-group: pull_request
 parser.add_argument("pr_author_login")
