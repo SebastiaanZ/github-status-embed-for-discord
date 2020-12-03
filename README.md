@@ -1,2 +1,2 @@
-# discord-status-embed
-Send a custom Discord GitHub status embed to a webhook
+# GitHub Status Embed for Discord
+Send a custom GitHub Status Embed to a Discord webhook.
