@@ -12,7 +12,7 @@ inputs:
     required: true
 
   run_number:
-    description: 'The number of this workflow run (typically: github.number)'
+    description: 'The number of this workflow run (typically: github.run_number)'
     required: true
 
   status:

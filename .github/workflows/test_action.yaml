@@ -13,14 +13,14 @@ jobs:
       with:
         workflow_name: ${{ github.workflow }}
         run_id: ${{ github.run_id }}
-        run_number: ${{ github.number }}
+        run_number: ${{ github.run_number }}
         status: ${{ job.status }}
         actor: ${{ github.actor }}
         webhook_id: 'webhook id'
         webhook_token: 'webhook token'
         repository:  ${{ github.repository }}
         sha: ${{ github.sha }}
-        branch: ${{ github.ref }}
+        ref: ${{ github.ref }}
         pr_author_login: ${{ github.event.pull_request.user.login }}
         pr_number: ${{ github.event.pull_request.number }}
         pr_title: ${{ github.event.pull_request.title }}
