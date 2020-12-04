@@ -1,0 +1,84 @@
+name: GitHub Actions Status Embed for Discord
+author: Sebastiaan Zeeff
+description: Send an enhanced GitHub Actions status embed to a Discord webhook
+
+inputs:
+  workflow_name:
+    description: 'name of the workflow'
+    required: true
+
+  run_id:
+    description: 'run id of this workflow run'
+    required: true
+
+  run_number:
+    description: 'number of this workflow run'
+    required: true
+
+  status:
+    description: 'results status communicated with this embed'
+    required: true
+
+  repository:
+    description: 'GitHub repository name, including owner'
+    required: true
+
+  actor:
+    description: 'actor that initiated the workflow run'
+    required: true
+
+  ref:
+    description: 'The branch or tag that triggered the workflow'
+    required: true
+
+  sha:
+    description: 'sha of the commit that triggered the workflow'
+    required: true
+
+  webhook_id:
+    description: 'ID of the Discord webhook that is targeted'
+    required: true
+
+  webhook_token:
+    description: 'token for the Discord webhook that is targeted'
+    required: true
+
+  pr_author_login:
+    description: 'login of the PR author'
+    required: false
+
+  pr_number:
+    description: 'number of the Pull Request'
+    required: false
+
+  pr_title:
+    description: 'title of the Pull Request'
+    required: false
+
+  pr_source:
+    description: 'source of the Pull Request'
+    required: false
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    # Arguments should be listed in the same order as above.
+    - ${{ inputs.workflow_name }}
+    - ${{ inputs.run_id }}
+    - ${{ inputs.run_number }}
+    - ${{ inputs.status }}
+    - ${{ inputs.repository }}
+    - ${{ inputs.actor }}
+    - ${{ inputs.ref }}
+    - ${{ inputs.sha }}
+    - ${{ inputs.webhook_id }}
+    - ${{ inputs.webhook_token }}
+    - ${{ inputs.pr_author_login }}
+    - ${{ inputs.pr_number }}
+    - ${{ inputs.pr_title }}
+    - ${{ inputs.pr_source }}
+
+branding:
+  icon: 'check-circle'
+  color: 'green'
