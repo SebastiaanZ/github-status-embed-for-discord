@@ -1,9 +1,13 @@
+import json
+import logging
 import typing
 
 import requests
 
 from github_status_embed import types
 
+
+log = logging.getLogger(__name__)
 
 EMBED_DESCRIPTION = "GitHub Actions run [{run_id}]({run_url}) {status_verb}."
 PULL_REQUEST_URL = "https://github.com/{repository}/pull/{number}"
@@ -109,15 +113,20 @@ def send_webhook(
 ) -> bool:
     """Send an embed to specified webhook."""
     if pull_request is None:
+        log.debug("Creating payload for non-Pull Request event")
         payload = get_payload(workflow)
     else:
+        log.debug("Creating payload for Pull Request Check")
         payload = get_payload_pull_request(workflow, pull_request)
+
+    log.debug("Generated payload:\n%s", json.dumps(payload, indent=4))
 
     response = requests.post(
         webhook.url,
         data=payload,
     )
 
+    log.debug(f"Response: [{response.status_code}] {response.reason}")
     if response.ok:
         print(f"[status: {response.status_code}] Successfully delivered webhook payload!")
     else:

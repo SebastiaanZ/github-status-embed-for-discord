@@ -1,13 +1,17 @@
 import argparse
 import importlib.resources
+import logging
 import pathlib
 import sys
 
 import yaml
 
 from github_status_embed.webhook import send_webhook
+from .log import setup_logging
 from .types import MissingActionFile, PullRequest, Webhook, Workflow
 
+
+log = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser(
     description="Send an enhanced GitHub Actions Status Embed to a Discord webhook.",
@@ -41,9 +45,21 @@ action_specs = yaml.safe_load(action_specs)
 for argument, configuration in action_specs["inputs"].items():
     parser.add_argument(argument, help=configuration["description"])
 
+parser.add_argument("--debug", help="enable debug logging", action="store_true", dest="debug")
+
 
 if __name__ == "__main__":
     arguments = vars(parser.parse_args())
+    debug = arguments.pop('debug')
+
+    # Set up logging and make sure to mask the webhook_token in log records
+    level = logging.DEBUG if debug else logging.ERROR
+    setup_logging(level, masked_values=[arguments['webhook_token']])
+
+    # If debug logging is requested, enable it for our application only
+    if debug:
+        output = "\n".join(f"  {k}={v!r}" for k, v in arguments.items())
+        log.debug("Received the following arguments from the CLI:\n%s", output)
 
     # Extract Action arguments by creating dataclasses
     workflow = Workflow.from_arguments(arguments)
@@ -54,4 +70,5 @@ if __name__ == "__main__":
     success = send_webhook(workflow, webhook, pull_request)
 
     if not success:
+        log.debug("Exiting with status code 1")
         sys.exit(1)
