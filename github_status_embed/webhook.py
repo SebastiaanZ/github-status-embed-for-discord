@@ -115,7 +115,7 @@ def send_webhook(
 
     response = requests.post(
         webhook.url,
-        content=payload,
+        data=payload,
     )
 
     if response.ok:
