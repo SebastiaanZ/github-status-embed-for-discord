@@ -208,3 +208,101 @@ class PullRequest(TypedDataclass, optional=True):
     def source(self) -> str:
         """Return the `pr_number`."""
         return f"{self.pr_source:25.25}..." if len(self.pr_source) > 28 else self.pr_source
+
+
+class AllowedMentions(typing.TypedDict, total=False):
+    """A TypedDict to represent the AllowedMentions in a webhook payload."""
+
+    parse: typing.List[str]
+    users: typing.List[str]
+    roles: typing.List[str]
+    replied_user: bool
+
+
+class EmbedField(typing.TypedDict, total=False):
+    """A TypedDict to represent an embed field in a webhook payload."""
+
+    name: str
+    value: str
+    inline: bool
+
+
+class EmbedFooter(typing.TypedDict, total=False):
+    """A TypedDict to represent an embed footer in a webhook payload."""
+
+    text: str
+    icon_url: str
+    proxy_icon_url: str
+
+
+class EmbedThumbnail(typing.TypedDict, total=False):
+    """A TypedDict to represent an embed thumbnail in a webhook payload."""
+
+    url: str
+    proxy_url: str
+    height: str
+    width: str
+
+
+class EmbedProvider(typing.TypedDict, total=False):
+    """A TypedDict to represent an embed provider in a webhook payload."""
+
+    name: str
+    url: str
+
+
+class EmbedAuthor(typing.TypedDict, total=False):
+    """A TypedDict to represent an embed author in a webhook payload."""
+
+    name: str
+    url: str
+    icon_url: str
+    proxy_icon_url: str
+
+
+class EmbedVideo(typing.TypedDict, total=False):
+    """A TypedDict to represent an embed video in a webhook payload."""
+
+    url: str
+    height: str
+    width: str
+
+
+class EmbedImage(typing.TypedDict, total=False):
+    """A TypedDict to represent an embed image in a webhook payload."""
+
+    url: str
+    proxy_url: str
+    height: str
+    width: str
+
+
+class Embed(typing.TypedDict, total=False):
+    """A TypedDict to represent an embed in a webhook payload."""
+
+    title: str
+    type: str
+    description: str
+    url: str
+    timestamp: str
+    color: int
+    footer: EmbedFooter
+    image: EmbedImage
+    thumbnail: EmbedThumbnail
+    video: EmbedVideo
+    provider: EmbedProvider
+    author: EmbedAuthor
+    fields: typing.List[EmbedField]
+
+
+class WebhookPayload(typing.TypedDict, total=False):
+    """A TypedDict to represent the webhook payload itself."""
+
+    content: str
+    username: str
+    avatar_url: str
+    tts: bool
+    file: bytes
+    embeds: typing.List[Embed]
+    payload_json: str
+    allowed_mentions: AllowedMentions
