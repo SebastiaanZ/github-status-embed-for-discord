@@ -5,7 +5,11 @@ import enum
 import typing
 
 
-class InvalidArgument(ValueError):
+class MissingActionFile(FileNotFoundError):
+    """Raised when the Action file can't be located."""
+
+
+class InvalidArgument(TypeError):
     """Raised when an argument is of the wrong type."""
 
 
