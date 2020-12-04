@@ -86,7 +86,7 @@ def get_payload(workflow: types.Workflow) -> types.WebhookPayload:
 
     embed = types.Embed(
         title=(
-            f"[{workflow.repository}] Workflow Run {workflow.status.adjective}: "
+            f"[{workflow.repository}] Workflow {workflow.status.adjective}: "
             f"{workflow.name} #{workflow.number}"
         ),
         description=EMBED_DESCRIPTION.format(
