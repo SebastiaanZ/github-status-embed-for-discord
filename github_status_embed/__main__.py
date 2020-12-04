@@ -1,9 +1,11 @@
 import argparse
 import importlib.resources
 import pathlib
+import sys
 
 import yaml
 
+from github_status_embed.webhook import send_webhook
 from .types import MissingActionFile, PullRequest, Webhook, Workflow
 
 
@@ -47,3 +49,9 @@ if __name__ == "__main__":
     workflow = Workflow.from_arguments(arguments)
     webhook = Webhook.from_arguments(arguments)
     pull_request = PullRequest.from_arguments(arguments)
+
+    # Send webhook
+    success = send_webhook(workflow, webhook, pull_request)
+
+    if not success:
+        sys.exit(1)
