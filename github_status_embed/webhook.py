@@ -1,3 +1,7 @@
+import typing
+
+import requests
+
 from github_status_embed import types
 
 
@@ -96,3 +100,31 @@ def get_payload(workflow: types.Workflow) -> types.WebhookPayload:
     )
 
     return webhook_payload
+
+
+def send_webhook(
+        workflow: types.Workflow,
+        webhook: types.Webhook,
+        pull_request: typing.Optional[types.PullRequest],
+) -> bool:
+    """Send an embed to specified webhook."""
+    if pull_request is None:
+        payload = get_payload(workflow)
+    else:
+        payload = get_payload_pull_request(workflow, pull_request)
+
+    response = requests.post(
+        webhook.url,
+        content=payload,
+    )
+
+    if response.ok:
+        print(f"[status: {response.status_code}] Successfully delivered webhook payload!")
+    else:
+        # Output an error message using the GitHub Actions error command format
+        print(
+            "::error::Discord webhook delivery failed! "
+            f"(status: {response.status_code}; reason: {response.reason})"
+        )
+
+    return response.ok
