@@ -121,10 +121,7 @@ def send_webhook(
 
     log.debug("Generated payload:\n%s", json.dumps(payload, indent=4))
 
-    response = requests.post(
-        webhook.url,
-        data=payload,
-    )
+    response = requests.post(webhook.url, json=payload)
 
     log.debug(f"Response: [{response.status_code}] {response.reason}")
     if response.ok:
