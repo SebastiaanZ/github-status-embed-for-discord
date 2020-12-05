@@ -144,6 +144,18 @@ class Workflow(TypedDataclass):
         """Return the short commit sha."""
         return f"https://github.com/{self.repository}/commit/{self.sha}"
 
+    @property
+    def repository_owner(self) -> str:
+        """Extract and return the repository owner from the repository field."""
+        owner, _, _name = self.repository.partition("/")
+        return owner
+
+    @property
+    def repository_name(self) -> str:
+        """Extract and return the repository owner from the repository field."""
+        _owner, _, name = self.repository.partition("/")
+        return name
+
 
 @dataclasses.dataclass(frozen=True)
 class Webhook(TypedDataclass):
