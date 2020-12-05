@@ -224,7 +224,7 @@ class PullRequest(TypedDataclass, optional=True):
         # the current repository. This means that it will only be displayed
         # when the PR is made from a branch on a fork.
         if owner:
-            pr_source = pr_source.removeprefix(owner)
+            pr_source = pr_source.removeprefix(f"{owner}:")
 
         # Truncate the `pr_source` if it's longer than the specified length
         if len(pr_source) > length:
