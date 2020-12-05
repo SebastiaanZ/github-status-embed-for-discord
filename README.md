@@ -53,7 +53,7 @@ jobs:
       uses: SebastiaanZ/github-status-embed-for-discord@main
       with:
         # Discord webhook
-        webhook_id: 1234567890
+        webhook_id: '1234567890'  # Has to be provided as a string
         webhook_token: ${{ secrets.webhook_token }}
 
         # Information about the current workflow
@@ -83,7 +83,7 @@ jobs:
 
 | Argument | Description | Required |
 | --- | --- | :---: |
-| webhook_id | ID of the Discord webhook | yes |
+| webhook_id | ID of the Discord webhook (use a string) | yes |
 | webhook_token | Token of the Discord webhook | yes |
 | workflow_name | Name of the workflow | yes |
 | run_id | Run ID of the workflow | yes |
