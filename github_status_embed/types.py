@@ -5,6 +5,9 @@ import enum
 import typing
 
 
+MIN_EMBED_FIELD_LENGTH = 20
+
+
 class MissingActionFile(FileNotFoundError):
     """Raised when the Action file can't be located."""
 
@@ -227,6 +230,7 @@ class PullRequest(TypedDataclass, optional=True):
             pr_source = pr_source.removeprefix(f"{owner}:")
 
         # Truncate the `pr_source` if it's longer than the specified length
+        length = length if length >= MIN_EMBED_FIELD_LENGTH else MIN_EMBED_FIELD_LENGTH
         if len(pr_source) > length:
             stop = length - 3
             pr_source = f"{pr_source[:stop]}..."
