@@ -13,7 +13,7 @@ As a solution to this problem, I decided to write a new action that sends an enh
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/SebastiaanZ/github-status-embed-for-discord/main/img/embed_comparison.png" title="Embed Comparison">
-  Comparison between a standard and an enhanced embed as provided by this action. 
+  Comparison between a standard and an enhanced embed as provided by this action.
 </p>
 
 As you can see, the standard embeds on the left don't contain a lot of information, while the embed on the right shows the information you'd typically want for a check run on a pull request. While it would be possible to include even more information, there's also obviously a trade-off between the amount of information and the vertical space required to display the embed in Discord.
