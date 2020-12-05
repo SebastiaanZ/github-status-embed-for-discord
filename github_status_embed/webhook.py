@@ -17,26 +17,32 @@ WEBHOOK_AVATAR_URL = (
     "SebastiaanZ/github-status-embed-for-discord/main/"
     "github_actions_avatar.png"
 )
+FIELD_CHARACTER_BUDGET = 60
 
 
 def get_payload_pull_request(
         workflow: types.Workflow, pull_request: types.PullRequest
 ) -> types.WebhookPayload:
     """Create a WebhookPayload with information about a Pull Request."""
+    # Calculate the character budget for the Source Branch field
+    author = pull_request.pr_author_login
+    workflow_number = f"{workflow.name} #{workflow.number}"
+    characters_left = FIELD_CHARACTER_BUDGET - len(author) - len(workflow_number)
+
     fields = [
         types.EmbedField(
             name="PR Author",
-            value=f"[{pull_request.pr_author_login}]({pull_request.author_url})",
+            value=f"[{author}]({pull_request.author_url})",
             inline=True,
         ),
         types.EmbedField(
             name="Workflow Run",
-            value=f"[{workflow.name} #{workflow.number}]({workflow.url})",
+            value=f"[{workflow_number}]({workflow.url})",
             inline=True,
         ),
         types.EmbedField(
             name="Source Branch",
-            value=pull_request.source,
+            value=pull_request.shortened_source(characters_left, owner=workflow.repository_owner),
             inline=True,
         ),
     ]

@@ -213,13 +213,25 @@ class PullRequest(TypedDataclass, optional=True):
 
     @property
     def title(self) -> str:
-        """Return the `pr_number`."""
+        """Return the title of the PR."""
         return self.pr_title
 
-    @property
-    def source(self) -> str:
-        """Return the `pr_number`."""
-        return f"{self.pr_source:25.25}..." if len(self.pr_source) > 28 else self.pr_source
+    def shortened_source(self, length: int, owner: typing.Optional[str] = None) -> str:
+        """Returned a shortened representation of the source branch."""
+        pr_source = self.pr_source
+
+        # This removes the owner prefix in the source field if it matches
+        # the current repository. This means that it will only be displayed
+        # when the PR is made from a branch on a fork.
+        if owner:
+            pr_source = pr_source.removeprefix(owner)
+
+        # Truncate the `pr_source` if it's longer than the specified length
+        if len(pr_source) > length:
+            stop = length - 3
+            pr_source = f"{pr_source[:stop]}..."
+
+        return pr_source
 
 
 class AllowedMentions(typing.TypedDict, total=False):
