@@ -59,6 +59,10 @@ inputs:
     description: 'source of the Pull Request'
     required: false
 
+  pull_request_payload:
+    description: 'Pull Request in jSON payload form'
+    required: false
+
 runs:
   using: 'docker'
   image: 'Dockerfile'

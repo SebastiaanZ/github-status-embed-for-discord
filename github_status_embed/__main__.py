@@ -76,7 +76,10 @@ if __name__ == "__main__":
     # Extract Action arguments by creating dataclasses
     workflow = Workflow.from_arguments(arguments)
     webhook = Webhook.from_arguments(arguments)
-    pull_request = PullRequest.from_arguments(arguments)
+    if arguments.get("pull_request_payload", False):
+        pull_request = PullRequest.from_payload(arguments)
+    else:
+        pull_request = PullRequest.from_arguments(arguments)
 
     # Send webhook
     success = send_webhook(workflow, webhook, pull_request, dry_run)

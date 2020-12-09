@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import dataclasses
 import enum
+import json
+import logging
 import typing
 
+log = logging.getLogger(__name__)
 
 MIN_EMBED_FIELD_LENGTH = 20
 
@@ -198,6 +201,39 @@ class PullRequest(TypedDataclass, optional=True):
     pr_number: int
     pr_title: str
     pr_source: str
+
+    @classmethod
+    def from_payload(cls, arguments: typing.Dict[str, str]) -> typing.Optional[PullRequest]:
+        """Create a Pull Request instance from Pull Request Payload JSON."""
+        # Safe load the JSON Payload provided as a command line argument.
+        raw_payload = arguments.pop('pull_request_payload')
+        log.debug(f"Attempting to parse PR Payload JSON: {raw_payload!r}.")
+        try:
+            payload = json.loads(raw_payload)
+        except json.JSONDecodeError:
+            log.debug("Failed to parse JSON, dropping down to empty payload")
+            payload = {}
+        else:
+            log.debug("Successfully parsed parsed payload")
+
+        # If the payload contains multiple PRs in a list, use the first one.
+        if isinstance(payload, list):
+            log.debug("The payload contained a list, extracting first PR.")
+            payload = payload[0] if payload else {}
+
+        if not payload:
+            log.warning("PR payload could not be parsed, attempting regular pr arguments.")
+            return cls.from_arguments(arguments)
+
+        # Get the target arguments from the payload, yielding similar results
+        # when keys are missing as to when their corresponding arguments are
+        # missing.
+        arguments["pr_author_login"] = payload.get('user', {}).get('login', '')
+        arguments["pr_number"] = payload.get('number', '')
+        arguments["pr_title"] = payload.get('title', '')
+        arguments["pr_source"] = payload.get('head', {}).get('label', '')
+
+        return cls.from_arguments(arguments)
 
     @property
     def author(self) -> str:
