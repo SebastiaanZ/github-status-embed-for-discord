@@ -63,6 +63,16 @@ inputs:
     description: 'Pull Request in jSON payload form'
     required: false
 
+  debug:
+    description: 'Pull Request in jSON payload form'
+    required: false
+    default: 'false'
+
+  dry_run:
+    description: 'Pull Request in jSON payload form'
+    required: false
+    default: 'false'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -82,6 +92,9 @@ runs:
     - ${{ inputs.pr_number }}
     - ${{ inputs.pr_title }}
     - ${{ inputs.pr_source }}
+    - ${{ inputs.pull_request_payload }}
+    - ${{ inputs.debug }}
+    - ${{ inputs.dry_run }}
 
 branding:
   icon: 'check-circle'

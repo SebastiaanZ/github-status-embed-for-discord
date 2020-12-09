@@ -100,6 +100,8 @@ jobs:
 | pr_title | Title of the Pull Request | no¹ |
 | pr_source | Source branch for the Pull Request | no¹ |
 | pull_request_payload | PR payload in JSON format² | no³ |
+| debug | set to "true" to turn on debug logging | no |
+| dry_run | set to "true" to not send the webhook request | no |
 
 1) The Action will determine whether to send an embed tailored towards a Pull Request Check Run or towards a general workflow run based on the presence of non-null values for the four pull request arguments. This means that you either have to provide **all** of them or **none** of them.
 
