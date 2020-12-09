@@ -113,6 +113,7 @@ def send_webhook(
         workflow: types.Workflow,
         webhook: types.Webhook,
         pull_request: typing.Optional[types.PullRequest],
+        dry_run: bool = False,
 ) -> bool:
     """Send an embed to specified webhook."""
     if pull_request is None:
@@ -123,6 +124,9 @@ def send_webhook(
         payload = get_payload_pull_request(workflow, pull_request)
 
     log.debug("Generated payload:\n%s", json.dumps(payload, indent=4))
+
+    if dry_run:
+        return True
 
     response = requests.post(webhook.url, json=payload)
 

@@ -45,15 +45,27 @@ action_specs = yaml.safe_load(action_specs)
 for argument, configuration in action_specs["inputs"].items():
     parser.add_argument(argument, help=configuration["description"])
 
-parser.add_argument("--debug", help="enable debug logging", action="store_true", dest="debug")
+parser.add_argument(
+    "--debug",
+    help="enable debug logging",
+    action="store_true",
+    dest="debug",
+)
+parser.add_argument(
+    "--dry-run",
+    help="do not send webhook request",
+    action="store_true",
+    dest="dry_run"
+)
 
 
 if __name__ == "__main__":
     arguments = vars(parser.parse_args())
     debug = arguments.pop('debug')
+    dry_run = arguments.pop('dry_run')
 
     # Set up logging and make sure to mask the webhook_token in log records
-    level = logging.DEBUG if debug else logging.ERROR
+    level = logging.DEBUG if debug else logging.WARNING
     setup_logging(level, masked_values=[arguments['webhook_token']])
 
     # If debug logging is requested, enable it for our application only
@@ -67,7 +79,7 @@ if __name__ == "__main__":
     pull_request = PullRequest.from_arguments(arguments)
 
     # Send webhook
-    success = send_webhook(workflow, webhook, pull_request)
+    success = send_webhook(workflow, webhook, pull_request, dry_run)
 
     if not success:
         log.debug("Exiting with status code 1")
