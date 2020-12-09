@@ -75,6 +75,8 @@ jobs:
         pr_number: ${{ github.event.pull_request.number }}
         pr_title: ${{ github.event.pull_request.title }}
         pr_source: ${{ github.event.pull_request.head.label }}
+        # Or simply provide the raw Pull Request payload in JSON format
+        pull_request_payload: ${{ toJson(github.event.pull_request) }}
 ```
 
 ### Command specification
@@ -97,10 +99,15 @@ jobs:
 | pr_number | Pull Request number | no¹ |
 | pr_title | Title of the Pull Request | no¹ |
 | pr_source | Source branch for the Pull Request | no¹ |
+| pull_request_payload | PR payload in JSON format² | no³ |
 
 1) The Action will determine whether to send an embed tailored towards a Pull Request Check Run or towards a general workflow run based on the presence of non-null values for the four pull request arguments. This means that you either have to provide **all** of them or **none** of them.
 
     Do note that you can typically keep the arguments in the argument list even if your workflow is triggered for non-PR events, as GitHub's object notation (`name.name.name`) will silently return `null` if a name is unset. In the workflow example above, a `push` event would send an embed tailored to a general workflow run, as all the PR-related arguments would all be `null`.
+
+2) The pull request payload may be nested within an array, `[{...}]`. If the array contains multiple PR payloads, only the first one will be picked.
+
+3) Providing a JSON payload will take precedence over the individual pr arguments. If a JSON payload is present, it will be used and the individual pr arguments will be ignored, unless parsing the JSON fails.
 
 ## Recipes
 
