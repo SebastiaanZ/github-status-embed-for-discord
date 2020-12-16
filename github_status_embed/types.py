@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import collections
 import dataclasses
 import enum
 import json
@@ -71,6 +72,8 @@ class TypedDataclass:
                     value = _type[value.upper()]
                 else:
                     value = _type(value)
+                    if isinstance(value, collections.Sized) and len(value) == 0:
+                        raise ValueError
             except (ValueError, KeyError):
                 raise InvalidArgument(f"invalid value for `{attribute}`: {value}") from None
             else:
