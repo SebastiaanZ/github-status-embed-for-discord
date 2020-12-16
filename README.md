@@ -56,16 +56,6 @@ jobs:
         webhook_id: '1234567890'  # Has to be provided as a string
         webhook_token: ${{ secrets.webhook_token }}
 
-        # Information about the current workflow
-        workflow_name: ${{ github.workflow }}
-        run_id: ${{ github.run_id }}
-        run_number: ${{ github.run_number }}
-        status: ${{ job.status }}
-        actor: ${{ github.actor }}
-        repository:  ${{ github.repository }}
-        ref: ${{ github.ref }}
-        sha: ${{ github.sha }}
-
         # Optional arguments for PR-related events
         # Note: There's no harm in including these lines for non-PR
         # events, as non-existing paths in objects will evaluate to
@@ -75,33 +65,31 @@ jobs:
         pr_number: ${{ github.event.pull_request.number }}
         pr_title: ${{ github.event.pull_request.title }}
         pr_source: ${{ github.event.pull_request.head.label }}
-        # Or simply provide the raw Pull Request payload in JSON format
-        pull_request_payload: ${{ toJson(github.event.pull_request) }}
 ```
 
 ### Command specification
 
 **Note:** The example step above contains the typical way of providing the arguments.
 
-| Argument | Description | Required |
+| Argument | Description | Default |
 | --- | --- | :---: |
-| webhook_id | ID of the Discord webhook (use a string) | yes |
-| webhook_token | Token of the Discord webhook | yes |
-| workflow_name | Name of the workflow | yes |
-| run_id | Run ID of the workflow | yes |
-| run_number | Run number of the workflow  | yes |
-| status | Status for the embed; one of ["succes", "failure", "cancelled"] | yes |
-| actor | Actor who requested the workflow | yes |
-| repository | Repository; has to be in form `owner/repo` | yes |
-| ref | Branch or tag ref that triggered the workflow run | yes |
-| sha | Full commit SHA that triggered the workflow run. | yes |
-| pr_author_login | **Login** of the Pull Request author | no¹ |
-| pr_number | Pull Request number | no¹ |
-| pr_title | Title of the Pull Request | no¹ |
-| pr_source | Source branch for the Pull Request | no¹ |
-| pull_request_payload | PR payload in JSON format² | no³ |
-| debug | set to "true" to turn on debug logging | no |
-| dry_run | set to "true" to not send the webhook request | no |
+| status | Status for the embed; one of ["succes", "failure", "cancelled"] | (required) |
+| webhook_id | ID of the Discord webhook (use a string) | (required) |
+| webhook_token | Token of the Discord webhook | (required) |
+| workflow_name | Name of the workflow | github.workflow |
+| run_id | Run ID of the workflow | github.run_id |
+| run_number | Run number of the workflow  | github.run_number |
+| actor | Actor who requested the workflow | github.actor |
+| repository | Repository; has to be in form `owner/repo` | github.repository |
+| ref | Branch or tag ref that triggered the workflow run | github.ref |
+| sha | Full commit SHA that triggered the workflow run. | github.sha |
+| pr_author_login | **Login** of the Pull Request author | (optional)¹ |
+| pr_number | Pull Request number | (optional)¹ |
+| pr_title | Title of the Pull Request | (optional)¹ |
+| pr_source | Source branch for the Pull Request | (optional)¹ |
+| debug | set to "true" to turn on debug logging | false |
+| dry_run | set to "true" to not send the webhook request | false |
+| pull_request_payload | PR payload in JSON format² **(deprecated)** | (deprecated)³ |
 
 1) The Action will determine whether to send an embed tailored towards a Pull Request Check Run or towards a general workflow run based on the presence of non-null values for the four pull request arguments. This means that you either have to provide **all** of them or **none** of them.
 
