@@ -64,6 +64,7 @@ if __name__ == "__main__":
     workflow = Workflow.from_arguments(arguments)
     webhook = Webhook.from_arguments(arguments)
     if arguments.get("pull_request_payload", False):
+        log.warning("The use of `pull_request_payload` is deprecated and will be removed in v1.0.0")
         pull_request = PullRequest.from_payload(arguments)
     else:
         pull_request = PullRequest.from_arguments(arguments)

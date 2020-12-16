@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import collections
 import dataclasses
 import enum
 import json
@@ -71,6 +72,8 @@ class TypedDataclass:
                     value = _type[value.upper()]
                 else:
                     value = _type(value)
+                    if isinstance(value, collections.Sized) and len(value) == 0:
+                        raise ValueError
             except (ValueError, KeyError):
                 raise InvalidArgument(f"invalid value for `{attribute}`: {value}") from None
             else:
@@ -206,7 +209,7 @@ class PullRequest(TypedDataclass, optional=True):
     def from_payload(cls, arguments: typing.Dict[str, str]) -> typing.Optional[PullRequest]:
         """Create a Pull Request instance from Pull Request Payload JSON."""
         # Safe load the JSON Payload provided as a command line argument.
-        raw_payload = arguments.pop('pull_request_payload')
+        raw_payload = arguments.pop('pull_request_payload').replace("\\", "\\\\")
         log.debug(f"Attempting to parse PR Payload JSON: {raw_payload!r}.")
         try:
             payload = json.loads(raw_payload)
