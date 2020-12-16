@@ -5,15 +5,18 @@ description: Send an enhanced GitHub Actions status embed to a Discord webhook
 inputs:
   workflow_name:
     description: 'name of the workflow'
-    required: true
+    required: false
+    default: ${{ github.workflow }}
 
   run_id:
     description: 'run id of this workflow run'
-    required: true
+    required: false
+    default: ${{ github.run_id }}
 
   run_number:
     description: 'number of this workflow run'
-    required: true
+    required: false
+    default: ${{ github.run_number }}
 
   status:
     description: 'results status communicated with this embed'
@@ -21,19 +24,23 @@ inputs:
 
   repository:
     description: 'GitHub repository name, including owner'
-    required: true
+    required: false
+    default: ${{ github.repository }}
 
   actor:
     description: 'actor that initiated the workflow run'
-    required: true
+    required: false
+    default: ${{ github.actor }}
 
   ref:
     description: 'The branch or tag that triggered the workflow'
-    required: true
+    required: false
+    default: ${{ github.ref }}
 
   sha:
     description: 'sha of the commit that triggered the workflow'
-    required: true
+    required: false
+    default: ${{ github.sha }}
 
   webhook_id:
     description: 'ID of the Discord webhook that is targeted'
@@ -64,12 +71,12 @@ inputs:
     required: false
 
   debug:
-    description: 'Pull Request in jSON payload form'
+    description: 'Output debug logging as annotations'
     required: false
     default: 'false'
 
   dry_run:
-    description: 'Pull Request in jSON payload form'
+    description: 'Do not send a request to the webhook endpoint'
     required: false
     default: 'false'
 
