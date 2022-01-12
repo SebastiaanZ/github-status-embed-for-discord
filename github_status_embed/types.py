@@ -186,7 +186,7 @@ class Webhook(TypedDataclass):
     @property
     def url(self) -> str:
         """Return the endpoint to execute this webhook."""
-        return f"https://canary.discord.com/api/webhooks/{self.id}/{self.token}"
+        return f"https://discord.com/api/webhooks/{self.id}/{self.token}"
 
 
 @dataclasses.dataclass(frozen=True)
