@@ -189,7 +189,7 @@ jobs:
       # more information and we can fine tune when we actually want
       # to send an embed.
       - name: GitHub Actions Status Embed for Discord
-        uses: SebastiaanZ/github-status-embed-for-discord@v0.2.1
+        uses: SebastiaanZ/github-status-embed-for-discord@main
         with:
           # Webhook token
           webhook_id: '1234567'
